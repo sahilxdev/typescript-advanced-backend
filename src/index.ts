@@ -3,8 +3,8 @@ import { UserService } from "./services/UserService";
 import bodyParser from "body-parser";
 import { loggingMiddleware } from "./middlewares/loggingMiddleware";
 import { errorHandler } from "./middlewares/errorHandler";
-
-
+import { validateInput } from "./utils/validateInput";
+import { UserDTO } from "./dtos/UserDTO";
 
 
 
@@ -33,6 +33,12 @@ app.post("/users", (req, res) => {
 
 app.get("/error", (req, res) => {
   throw new Error("Test error!");
+});
+
+app.post("/users", validateInput(UserDTO), (req, res) => {
+  const { name, email } = req.body;
+  const user = userService.createUser(name, email);
+  res.status(201).json(user);
 });
 
 
