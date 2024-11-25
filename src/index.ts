@@ -21,25 +21,25 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello, TypeScript!");
 });
 
-app.get("/users", (req, res) => {
+app.get("/users", (req: Request, res: Response) => {
   res.json(userService.getUsers());
 });
 
-app.post("/users", (req, res) => {
+app.post("/users", ((req: Request, res: Response) => {
   const { name, email } = req.body;
   const user = userService.createUser(name, email);
   res.status(201).json(user);
-});
+}));
 
-app.get("/error", (req, res) => {
+app.get("/error", ((req: Request, res: Response) => {
   throw new Error("Test error!");
-});
+}));
 
-app.post("/users", validateInput(UserDTO), (req, res) => {
+app.post("/users", validateInput(UserDTO), ((req: Request, res: Response) => {
   const { name, email } = req.body;
   const user = userService.createUser(name, email);
   res.status(201).json(user);
-});
+}));
 
 
 app.listen(PORT, () => {
